@@ -38,9 +38,11 @@ jobs:
     steps:
       - uses: actions/checkout@v7
         with:
-          # lupinho pins src/libs/linux/raylib without a URL in .gitmodules.
-          # The core does not compile raylib, so leave nested submodules alone.
+          # Checkout initializes lupinho and lupi-codec only.
+          # persist-credentials walks every nested gitlink, and lupinho records
+          # src/libs/linux/raylib without a URL. The core does not compile raylib.
           submodules: true
+          persist-credentials: false
 
       - name: Install Linux deps
         if: matrix.name == 'linux'
