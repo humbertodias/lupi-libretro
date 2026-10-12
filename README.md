@@ -5,7 +5,7 @@ Libretro core for [Lupinho](https://github.com/humbertodias/lupinho), the simula
 ## Build
 
 ```bash
-git clone --recurse-submodules https://github.com/humbertodias/lupinho-libreto.git
+git clone --recurse-submodules https://github.com/humbertodias/lupinho-libretro.git
 cd lupinho-libreto
 make
 ```
