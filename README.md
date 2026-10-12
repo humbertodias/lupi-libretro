@@ -1,6 +1,6 @@
 # Lupinho Libretro
 
-Libretro core for [Lupinho](https://github.com/humbertodias/lupinho), the simulator for the Lupi fantasy console. Load a `.lupi` game, or `game.lua` inside a game directory, in RetroArch.
+Libretro core for [Lupinho](https://github.com/lupi-org-br/lupinho), the simulator for the Lupi fantasy console. Load a `.lupi` game, or `game.lua` inside a game directory, in RetroArch.
 
 ## Build
 
@@ -16,13 +16,9 @@ If the repository was cloned without submodules:
 git submodule update --init
 ```
 
-`make` writes `dist/lupinho_libretro.so` (Linux), `.dylib` (macOS), or `.dll` (Windows), plus `dist/lupinho_libretro.info`.
+`make` writes `dist/lupinho_libretro.so` (Linux), `.dylib` (macOS) or `.dll` (Windows), plus `dist/lupinho_libretro.info`.
 
-Dependencies: a C99 compiler, make, and zlib. Cross-compile the Windows core with MinGW-w64:
-
-```bash
-make libretro-win
-```
+Dependencies: a C99 compiler, make and zlib.
 
 ## RetroArch
 
