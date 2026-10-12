@@ -55,6 +55,40 @@ static int path_ends_with(const char *str, const char *suffix) {
     return strcmp(str + str_len - suffix_len, suffix) == 0;
 }
 
+static const char *path_basename(const char *path) {
+    const char *base = path;
+    for (const char *p = path; *p; p++) {
+        if (*p == '/' || *p == '\\') base = p + 1;
+    }
+    return base;
+}
+
+static int parent_directory(const char *path, char *out, size_t out_size) {
+    size_t len = strlen(path);
+    while (len > 0 && (path[len - 1] == '/' || path[len - 1] == '\\')) len--;
+
+    size_t slash = len;
+    while (slash > 0 && path[slash - 1] != '/' && path[slash - 1] != '\\') slash--;
+
+    if (slash == 0) {
+        if (out_size < 2) return -1;
+        memcpy(out, ".", 2);
+        return 0;
+    }
+
+    size_t dir_len = slash - 1;
+    if (dir_len == 0) {
+        if (out_size < 2) return -1;
+        out[0] = path[0];
+        out[1] = '\0';
+        return 0;
+    }
+    if (dir_len >= out_size) return -1;
+    memcpy(out, path, dir_len);
+    out[dir_len] = '\0';
+    return 0;
+}
+
 static void poll_joypad(unsigned port) {
     static const struct {
         unsigned retro_id;
@@ -189,6 +223,16 @@ static bool start_game(const char *path) {
         return load_game_at(path);
     }
 
+    /* RetroArch picks files. game.lua stands for the directory that contains it. */
+    if (strcmp(path_basename(path), "game.lua") == 0) {
+        char dir[512];
+        if (parent_directory(path, dir, sizeof(dir)) != 0) {
+            log_msg(RETRO_LOG_ERROR, "[Lupinho] Failed to resolve game directory for %s\n", path);
+            return false;
+        }
+        return load_game_at(dir);
+    }
+
     if (path_ends_with(path, ".lupi")) {
         if (extract_lupi_to_tmp(path, temp_game_dir, sizeof(temp_game_dir)) != 0) {
             log_msg(RETRO_LOG_ERROR, "[Lupinho] Failed to extract %s\n", path);
@@ -254,7 +298,7 @@ void retro_get_system_info(struct retro_system_info *info) {
     memset(info, 0, sizeof(*info));
     info->library_name = "Lupinho";
     info->library_version = "0.1.0";
-    info->valid_extensions = "lupi";
+    info->valid_extensions = "lupi|lua";
     info->need_fullpath = true;
     info->block_extract = true;
 }

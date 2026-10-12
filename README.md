@@ -33,7 +33,7 @@ make libretro-win
 
 ## RetroArch
 
-Copy `lupinho_libretro.*` and `lupinho_libretro.info` into RetroArch's cores directory, then load a `.lupi` file. The core needs a full path (`need_fullpath`) and extracts the archive itself (`block_extract`).
+Copy `lupinho_libretro.*` and `lupinho_libretro.info` into RetroArch's cores directory. Load a `.lupi` file, or open `game.lua` inside a game directory. The core uses that file's directory as the game root, so `palette.lua` and the other assets resolve next to it. A directory path that already contains `game.lua` also loads. The core needs a full path (`need_fullpath`) and extracts `.lupi` archives itself (`block_extract`).
 
 ## Release
 
@@ -45,8 +45,6 @@ git push origin v0.1.0
 ```
 
 The same workflow can be started from the Actions tab; it asks for the tag name.
-
-A directory that already contains `game.lua` also loads, which is useful while iterating on a game.
 
 | Retropad | Lupi |
 | --- | --- |
