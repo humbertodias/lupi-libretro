@@ -1,0 +1,4 @@
+[submodule "lupinho"]
+	path = lupinho
+	url = https://github.com/humbertodias/lupinho.git
+	branch = main
