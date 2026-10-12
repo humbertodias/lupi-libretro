@@ -38,7 +38,9 @@ jobs:
     steps:
       - uses: actions/checkout@v7
         with:
-          submodules: recursive
+          # lupinho pins src/libs/linux/raylib without a URL in .gitmodules.
+          # The core does not compile raylib, so leave nested submodules alone.
+          submodules: true
 
       - name: Install Linux deps
         if: matrix.name == 'linux'
