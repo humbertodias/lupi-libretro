@@ -9,12 +9,17 @@ $(error lupinho submodule is missing. Run: git submodule update --init)
 endif
 
 MINGW_CC ?= x86_64-w64-mingw32-gcc
+WIN_SOFLAGS := -shared
+WIN_LIBS := -lz -lm -static-libgcc
 
 ifeq ($(OS),Windows_NT)
   EXT := dll
-  SOFLAGS := -shared
-  LIBS := -lz -lm -static-libgcc
+  SOFLAGS := $(WIN_SOFLAGS)
+  LIBS := $(WIN_LIBS)
   LUAFLAGS :=
+  RETROARCH := retroarch.exe
+  CORE_DIR := $(APPDATA)/RetroArch/cores
+  INFO_DIR := $(APPDATA)/RetroArch/info
 else
   UNAME_S := $(shell uname -s)
   ifeq ($(UNAME_S),Darwin)
@@ -22,11 +27,17 @@ else
     SOFLAGS := -dynamiclib
     LIBS := -lz -lm
     LUAFLAGS := -DLUA_USE_POSIX
+    RETROARCH := /Applications/RetroArch.app/Contents/MacOS/RetroArch
+    CORE_DIR := $(HOME)/Library/Application Support/RetroArch/cores
+    INFO_DIR := $(HOME)/Library/Application Support/RetroArch/info
   else
     EXT := so
     SOFLAGS := -shared
     LIBS := -lz -lm -ldl
     LUAFLAGS := -DLUA_USE_POSIX
+    RETROARCH := retroarch
+    CORE_DIR := $(HOME)/.config/retroarch/cores
+    INFO_DIR := $(HOME)/.config/retroarch/info
   endif
 endif
 
@@ -34,7 +45,9 @@ CC ?= gcc
 CFLAGS := -Wall -std=c99 -D_DEFAULT_SOURCE -Wno-missing-braces -O2 -fPIC $(LUAFLAGS)
 CPPFLAGS := -Isrc/compat -Isrc -I$(LUPI) -I$(LUA)
 
-OUTPUT := dist/lupinho_libretro.$(EXT)
+CORE_FILE := lupinho_libretro.$(EXT)
+OUTPUT := dist/$(CORE_FILE)
+CORE_PATH := $(CORE_DIR)/$(CORE_FILE)
 
 CORE_SRCS := libretro.c input.c video.c palette.c zip.c raylib_shim.c
 CORE_OBJS := $(addprefix build/,$(CORE_SRCS:.c=.o))
@@ -78,35 +91,11 @@ build/lua/%.o: $(LUA)/%.c
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
 libretro-win:
-	$(MAKE) all CC="$(MINGW_CC)" EXT=dll SOFLAGS="-shared" LIBS="-lz -lm -static-libgcc" LUAFLAGS=""
+	$(MAKE) all CC="$(MINGW_CC)" EXT=dll SOFLAGS="$(WIN_SOFLAGS)" LIBS="$(WIN_LIBS)" LUAFLAGS=""
 
 clean:
 	rm -rf build dist
 
-# Detect OS
-UNAME := $(shell uname)
-
-ifeq ($(UNAME), Darwin)
-	LIB_EXT = dylib
-	CGO_LDFLAGS = -shared
-	RETROARCH=/Applications/RetroArch.app/Contents/MacOS/RetroArch
-	CORE_DIR = $(HOME)/Library/Application Support/RetroArch/cores
-	INFO_DIR = $(HOME)/Library/Application Support/RetroArch/info
-else ifeq ($(UNAME), Linux)
-	LIB_EXT = so
-	CGO_LDFLAGS = -shared
-	RETROARCH=retroarch
-	CORE_DIR = $(HOME)/.config/retroarch/cores
-	INFO_DIR = $(HOME)/.config/retroarch/info
-else
-	LIB_EXT = dll
-	CGO_LDFLAGS = -shared
-	RETROARCH=retroarch.exe
-	CORE_DIR = $(APPDATA)/RetroArch/cores
-	INFO_DIR = $(APPDATA)/RetroArch/info
-endif
-CORE_NAME = lupinho_libretro.$(LIB_EXT)
-CORE_PATH = $(CORE_DIR)/$(CORE_NAME)
 GAME = dist/game.lupi
 GAME_URL = https://github.com/humbertodias/lupi-joystick/releases/download/latest/lupi-joystick.lupi
 
@@ -119,6 +108,5 @@ get/game:
 	mkdir -p dist
 	curl -fL -o "$(GAME)" "$(GAME_URL)"
 
-# -L loads the core. A content file is required because supports_no_game is false.
-run: install/core get/game
+retroarch/run:
 	$(RETROARCH) -L "$(CORE_PATH)" -v "$(GAME)"

@@ -1,6 +1,6 @@
 # Lupinho Libretro
 
-Libretro core for [Lupinho](https://github.com/lupi-org-br/lupinho), the simulator for the Lupi fantasy console. Load a `.lupi` game, or `game.lua` inside a game directory, in RetroArch.
+Libretro core for [Lupinho](https://github.com/lupi-org-br/lupinho) the simulator for the Lupi fantasy console. Load a `.lupi` game, or `game.lua` inside a game directory in RetroArch.
 
 ## Build
 
@@ -16,14 +16,31 @@ If the repository was cloned without submodules:
 git submodule update --init
 ```
 
-`make` writes `dist/lupinho_libretro.so` (Linux), `.dylib` (macOS) or `.dll` (Windows), plus `dist/lupinho_libretro.info`.
+### Build
+```shell
+make libretro
+``` 
+writes `dist/lupinho_libretro.so` (Linux), `.dylib` (macOS) or `.dll` (Windows), plus `dist/lupinho_libretro.info`.
 
 Dependencies: a C99 compiler, make and zlib.
 
+```bash
+make install/core
+```
+Copy the core and `lupinho_libretro.info` into RetroArch's cores directory
+
+## Game
+```bash
+make get/game GAME_URL=https://github.com/humbertodias/lupi-joystick/releases/download/latest/lupi-joystick.lupi
+```
+
 ## RetroArch
 
-Copy the core and `lupinho_libretro.info` into RetroArch's cores directory. Load a `.lupi` file, or open `game.lua` inside a game directory.
+```bash
+make retroarch/run 
+```
 
+## Joystick
 | Retropad | Lupi |
 | --- | --- |
 | D-pad / left stick | UP, DOWN, LEFT, RIGHT |
