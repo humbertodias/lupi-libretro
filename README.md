@@ -7,8 +7,9 @@ Libretro core for [Lupinho](https://github.com/lupi-org-br/lupinho) the simulato
 ```bash
 git clone --recurse-submodules https://github.com/humbertodias/lupinho-libretro.git
 cd lupinho-libretro
-make
+make libretro
 ```
+writes `dist/lupinho_libretro.so` (Linux), `.dylib` (macOS) or `.dll` (Windows), plus `dist/lupinho_libretro.info`.
 
 If the repository was cloned without submodules:
 
@@ -17,14 +18,6 @@ git submodule update --init
 ```
 
 ## Core
-
-- Build
-```shell
-make libretro
-``` 
-writes `dist/lupinho_libretro.so` (Linux), `.dylib` (macOS) or `.dll` (Windows), plus `dist/lupinho_libretro.info`.
-
-Dependencies: a C99 compiler, make and zlib.
 
 - Install
 ```bash
@@ -36,11 +29,14 @@ Copy the core and `lupinho_libretro.info` into RetroArch's cores directory
 ```bash
 make game/clone GAME_URL=https://github.com/lupi-org-br/caio-pernocas
 ```
+Change `GAME_URL` to clone another lupi game 
+
 Codec
 
 ```bash
 make game/codec
 ```
+Convert game assets to release console format into `dist/game-release`
 
 ## RetroArch
 
