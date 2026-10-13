@@ -47,8 +47,8 @@ make game/codec
 ```bash
 make retroarch/run 
 ```
+<img width="1552" height="950" alt="image" src="https://github.com/user-attachments/assets/6b51f732-0ed8-4019-888e-8028058782f0" />
 
-<img width="1552" height="950" alt="image" src="https://github.com/user-attachments/assets/7ecad6d9-47b0-4477-998e-24266e3b49ac" />
 
 
 ## Joystick
