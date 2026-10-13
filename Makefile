@@ -96,17 +96,22 @@ libretro-win:
 clean:
 	rm -rf build dist
 
-GAME = dist/game.lupi
-GAME_URL = https://github.com/humbertodias/lupi-joystick/releases/download/latest/lupi-joystick.lupi
+MAKEFILE_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+GAME_URL = https://github.com/lupi-org-br/caio-pernocas
+GAME_CODEC_DIR_IN = $(MAKEFILE_DIR)dist/game
+GAME_CODEC_DIR_OUT = $(MAKEFILE_DIR)dist/game-release
 
-install/core: $(OUTPUT)
+core/install: $(OUTPUT)
 	mkdir -p "$(CORE_DIR)" "$(INFO_DIR)"
 	cp -f $(OUTPUT) "$(CORE_PATH)"
 	cp -f dist/lupinho_libretro.info "$(INFO_DIR)/lupinho_libretro.info"
 
-get/game:
-	mkdir -p dist
-	curl -fL -o "$(GAME)" "$(GAME_URL)"
+game/clone:
+	git clone --depth 1 "$(GAME_URL)" dist/game
+
+game/codec:
+	cd lupi-codec && \
+	lua run.lua "$(GAME_CODEC_DIR_IN)" "$(GAME_CODEC_DIR_OUT)"
 
 retroarch/run:
-	$(RETROARCH) -L "$(CORE_PATH)" -v "$(GAME)"
+	$(RETROARCH) -L "$(CORE_PATH)" -v "$(GAME_CODEC_DIR_OUT)/current"

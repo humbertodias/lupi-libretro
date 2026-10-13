@@ -2,3 +2,7 @@
 	path = lupinho
 	url = https://github.com/lupi-org-br/lupinho.git
 	branch = main
+[submodule "lupi-codec"]
+	path = lupi-codec
+	url = https://github.com/humbertodias/lupi-codec.git
+	branch = macos

@@ -28,13 +28,18 @@ Dependencies: a C99 compiler, make and zlib.
 
 - Install
 ```bash
-make install/core
+make core/install
 ```
 Copy the core and `lupinho_libretro.info` into RetroArch's cores directory
 
 ## Game
 ```bash
-make get/game GAME_URL=https://github.com/humbertodias/lupi-joystick/releases/download/latest/lupi-joystick.lupi
+make game/clone GAME_URL=https://github.com/lupi-org-br/caio-pernocas
+```
+Codec
+
+```bash
+make game/codec
 ```
 
 ## RetroArch
@@ -56,4 +61,4 @@ make retroarch/run
 | Y | BTN_E |
 | L | BTN_F |
 | R | BTN_G |
-| Start / Select | Start / Select |
+| Start / Select | ? / ? |
