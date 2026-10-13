@@ -16,7 +16,9 @@ If the repository was cloned without submodules:
 git submodule update --init
 ```
 
-### Build
+## Core
+
+- Build
 ```shell
 make libretro
 ``` 
@@ -24,6 +26,7 @@ writes `dist/lupinho_libretro.so` (Linux), `.dylib` (macOS) or `.dll` (Windows),
 
 Dependencies: a C99 compiler, make and zlib.
 
+- Install
 ```bash
 make install/core
 ```
@@ -39,6 +42,9 @@ make get/game GAME_URL=https://github.com/humbertodias/lupi-joystick/releases/do
 ```bash
 make retroarch/run 
 ```
+
+<img width="1552" height="950" alt="image" src="https://github.com/user-attachments/assets/7ecad6d9-47b0-4477-998e-24266e3b49ac" />
+
 
 ## Joystick
 | Retropad | Lupi |
