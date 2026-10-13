@@ -1,16 +1,16 @@
-# Lupinho Libretro
+# Lupi Libretro
 
-Libretro core for [Lupinho](https://github.com/lupi-org-br/lupinho), the simulator for the Lupi fantasy console. Load a `.lupi` game, or `game.lua` inside a game directory, in RetroArch.
+Libretro core for [Lupi](https://github.com/lupi-org-br/lupinho), the simulator for the Lupi fantasy console. Load a `.lupi` game, or `game.lua` inside a game directory, in RetroArch.
 
 ## Build
 
 ```bash
-git clone --recurse-submodules https://github.com/humbertodias/lupinho-libretro.git
-cd lupinho-libretro
+git clone --recurse-submodules https://github.com/humbertodias/lupi-libretro.git
+cd lupi-libretro
 make libretro
 ```
 
-This writes `dist/lupinho_libretro.so` (Linux), `.dylib` (macOS) or `.dll` (Windows), plus `dist/lupinho_libretro.info`.
+This writes `dist/lupi_libretro.so` (Linux), `.dylib` (macOS) or `.dll` (Windows), plus `dist/lupi_libretro.info`.
 
 Requires a C99 compiler, make and zlib. If the clone skipped submodules:
 
@@ -20,7 +20,7 @@ git submodule update --init
 
 ## Core
 
-Install the core into RetroArch's cores directory and `lupinho_libretro.info` into its info directory:
+Install the core into RetroArch's cores directory and `lupi_libretro.info` into its info directory:
 
 ```bash
 make core/install
@@ -48,7 +48,7 @@ Open RetroArch with this core and `dist/game-release/current`:
 make retroarch/run
 ```
 
-<img width="1552" height="950" alt="Lupinho running in RetroArch" src="https://github.com/user-attachments/assets/6b51f732-0ed8-4019-888e-8028058782f0" />
+<img width="1552" height="950" alt="Lupi running in RetroArch" src="https://github.com/user-attachments/assets/6b51f732-0ed8-4019-888e-8028058782f0" />
 
 ## Joystick
 

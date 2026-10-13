@@ -1,4 +1,4 @@
-# Libretro core for Lupinho. The simulator stays in the lupinho/ submodule;
+# Libretro core for Lupi. The simulator stays in the lupinho/ submodule;
 # this makefile only adds the frontend and the seams that must not live there.
 
 LUPI := lupinho/src
@@ -45,7 +45,7 @@ CC ?= gcc
 CFLAGS := -Wall -std=c99 -D_DEFAULT_SOURCE -Wno-missing-braces -O2 -fPIC $(LUAFLAGS)
 CPPFLAGS := -Isrc/compat -Isrc -I$(LUPI) -I$(LUA)
 
-CORE_FILE := lupinho_libretro.$(EXT)
+CORE_FILE := lupi_libretro.$(EXT)
 OUTPUT := dist/$(CORE_FILE)
 CORE_PATH := $(CORE_DIR)/$(CORE_FILE)
 
@@ -70,7 +70,7 @@ libretro: $(OUTPUT)
 $(OUTPUT): $(OBJS)
 	@mkdir -p dist
 	$(CC) $(SOFLAGS) -o $@ $(OBJS) $(LIBS)
-	cp -f src/lupinho_libretro.info dist/lupinho_libretro.info
+	cp -f src/lupi_libretro.info dist/lupi_libretro.info
 
 build/%.o: src/%.c
 	@mkdir -p $(dir $@)
@@ -104,7 +104,7 @@ GAME_CODEC_DIR_OUT = $(MAKEFILE_DIR)dist/game-release
 core/install: $(OUTPUT)
 	mkdir -p "$(CORE_DIR)" "$(INFO_DIR)"
 	cp -f $(OUTPUT) "$(CORE_PATH)"
-	cp -f dist/lupinho_libretro.info "$(INFO_DIR)/lupinho_libretro.info"
+	cp -f dist/lupi_libretro.info "$(INFO_DIR)/lupi_libretro.info"
 
 game/clone:
 	git clone --depth 1 "$(GAME_URL)" dist/game
