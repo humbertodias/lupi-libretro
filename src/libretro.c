@@ -9,6 +9,7 @@
 #include "ui.h"
 #include "lua_api.h"
 #include "input.h"
+#include "pointer.h"
 #include "zip.h"
 #include "palette.h"
 #include "video.h"
@@ -194,6 +195,7 @@ static bool load_game_at(const char *dir) {
 
     clear_host_modules();
     lupi_install_palette_loader(globalLuaState, game_dir);
+    lupi_pointer_install(globalLuaState);
     reset_ui_state();
 
     snprintf(game_path, sizeof(game_path), "%s/game.lua", game_dir);
@@ -334,6 +336,7 @@ void retro_run(void) {
     if (input_state_cb) {
         poll_joypad(0);
         poll_joypad(1);
+        lupi_pointer_poll(input_state_cb);
     }
 
     lua_api_call_update();
