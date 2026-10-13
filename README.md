@@ -1,6 +1,6 @@
 # Lupinho Libretro
 
-Libretro core for [Lupinho](https://github.com/lupi-org-br/lupinho) the simulator for the Lupi fantasy console. Load a `.lupi` game or `game.lua` inside a game directory in RetroArch.
+Libretro core for [Lupinho](https://github.com/lupi-org-br/lupinho), the simulator for the Lupi fantasy console. Load a `.lupi` game, or `game.lua` inside a game directory, in RetroArch.
 
 ## Build
 
@@ -9,9 +9,10 @@ git clone --recurse-submodules https://github.com/humbertodias/lupinho-libretro.
 cd lupinho-libretro
 make libretro
 ```
-writes `dist/lupinho_libretro.so` (Linux), `.dylib` (macOS) or `.dll` (Windows), plus `dist/lupinho_libretro.info`.
 
-If the repository was cloned without submodules:
+This writes `dist/lupinho_libretro.so` (Linux), `.dylib` (macOS) or `.dll` (Windows), plus `dist/lupinho_libretro.info`.
+
+Requires a C99 compiler, make and zlib. If the clone skipped submodules:
 
 ```bash
 git submodule update --init
@@ -19,35 +20,38 @@ git submodule update --init
 
 ## Core
 
-- Install
+Install the core into RetroArch's cores directory and `lupinho_libretro.info` into its info directory:
+
 ```bash
 make core/install
 ```
-Copy the core and `lupinho_libretro.info` into RetroArch's cores directory
 
 ## Game
+
+Clone a game into `dist/game`. `GAME_URL` defaults to caio-pernocas; pass another repo to override it:
+
 ```bash
 make game/clone GAME_URL=https://github.com/lupi-org-br/caio-pernocas
 ```
-Change `GAME_URL` to clone another lupi game 
 
-Codec
+Convert that game to the console release format. Output goes to `dist/game-release`, with `current` pointing at the latest release. Requires Lua and ImageMagick.
 
 ```bash
 make game/codec
 ```
-Convert game assets to release console format into `dist/game-release`
 
 ## RetroArch
 
+Open RetroArch with this core and `dist/game-release/current`:
+
 ```bash
-make retroarch/run 
+make retroarch/run
 ```
-<img width="1552" height="950" alt="image" src="https://github.com/user-attachments/assets/6b51f732-0ed8-4019-888e-8028058782f0" />
 
-
+<img width="1552" height="950" alt="Lupinho running in RetroArch" src="https://github.com/user-attachments/assets/6b51f732-0ed8-4019-888e-8028058782f0" />
 
 ## Joystick
+
 | Retropad | Lupi |
 | --- | --- |
 | D-pad / left stick | UP, DOWN, LEFT, RIGHT |
