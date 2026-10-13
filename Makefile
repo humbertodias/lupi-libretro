@@ -48,7 +48,7 @@ LUA_OBJS := $(addprefix build/lua/,$(LUA_SRCS:.c=.o))
 
 OBJS := $(CORE_OBJS) build/ui.o build/lua_api.o $(LUA_OBJS)
 
-.PHONY: all libretro libretro-win clean
+.PHONY: all libretro libretro-win clean install/core get/game run
 
 all: libretro
 
@@ -82,3 +82,43 @@ libretro-win:
 
 clean:
 	rm -rf build dist
+
+# Detect OS
+UNAME := $(shell uname)
+
+ifeq ($(UNAME), Darwin)
+	LIB_EXT = dylib
+	CGO_LDFLAGS = -shared
+	RETROARCH=/Applications/RetroArch.app/Contents/MacOS/RetroArch
+	CORE_DIR = $(HOME)/Library/Application Support/RetroArch/cores
+	INFO_DIR = $(HOME)/Library/Application Support/RetroArch/info
+else ifeq ($(UNAME), Linux)
+	LIB_EXT = so
+	CGO_LDFLAGS = -shared
+	RETROARCH=retroarch
+	CORE_DIR = $(HOME)/.config/retroarch/cores
+	INFO_DIR = $(HOME)/.config/retroarch/info
+else
+	LIB_EXT = dll
+	CGO_LDFLAGS = -shared
+	RETROARCH=retroarch.exe
+	CORE_DIR = $(APPDATA)/RetroArch/cores
+	INFO_DIR = $(APPDATA)/RetroArch/info
+endif
+CORE_NAME = lupinho_libretro.$(LIB_EXT)
+CORE_PATH = $(CORE_DIR)/$(CORE_NAME)
+GAME = dist/game.lupi
+GAME_URL = https://github.com/humbertodias/lupi-joystick/releases/download/latest/lupi-joystick.lupi
+
+install/core: $(OUTPUT)
+	mkdir -p "$(CORE_DIR)" "$(INFO_DIR)"
+	cp -f $(OUTPUT) "$(CORE_PATH)"
+	cp -f dist/lupinho_libretro.info "$(INFO_DIR)/lupinho_libretro.info"
+
+get/game:
+	mkdir -p dist
+	curl -fL -o "$(GAME)" "$(GAME_URL)"
+
+# -L loads the core. A content file is required because supports_no_game is false.
+run: install/core get/game
+	$(RETROARCH) -L "$(CORE_PATH)" -v "$(GAME)"
