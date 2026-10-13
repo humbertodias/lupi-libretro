@@ -1,12 +1,12 @@
 # Lupinho Libretro
 
-Libretro core for [Lupinho](https://github.com/lupi-org-br/lupinho) the simulator for the Lupi fantasy console. Load a `.lupi` game, or `game.lua` inside a game directory in RetroArch.
+Libretro core for [Lupinho](https://github.com/lupi-org-br/lupinho) the simulator for the Lupi fantasy console. Load a `.lupi` game or `game.lua` inside a game directory in RetroArch.
 
 ## Build
 
 ```bash
 git clone --recurse-submodules https://github.com/humbertodias/lupinho-libretro.git
-cd lupinho-libreto
+cd lupinho-libretro
 make
 ```
 
