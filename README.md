@@ -34,7 +34,7 @@ Clone a game into `dist/game`. `GAME_URL` defaults to caio-pernocas; pass anothe
 make game/clone GAME_URL=https://github.com/lupi-org-br/caio-pernocas
 ```
 
-Convert that game to the console release format. Output goes to `dist/game-release`, with `current` pointing at the latest release. Requires Lua and ImageMagick.
+Convert that game to the console release format. Output goes to `dist/game-release` with `current` pointing at the latest release. Requires `Lua` and `ImageMagick`.
 
 ```bash
 make game/codec
@@ -50,7 +50,8 @@ make retroarch/run
 
 <img width="1552" height="950" alt="Lupi running in RetroArch" src="https://github.com/user-attachments/assets/6b51f732-0ed8-4019-888e-8028058782f0" />
 
-## Joystick
+<details>
+  <summary>Joystick</summary>
 
 | Retropad | Lupi |
 | --- | --- |
@@ -62,3 +63,7 @@ make retroarch/run
 | L | BTN_F |
 | R | BTN_G |
 | Start / Select | ? / ? |
+
+</details>
+
+
