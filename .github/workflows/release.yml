@@ -25,15 +25,15 @@ jobs:
           - name: linux
             os: ubuntu-latest
             target: libretro
-            artifact: lupi_libretro.so
+            artifact: lupinho_libretro.so
           - name: macos
             os: macos-latest
             target: libretro
-            artifact: lupi_libretro.dylib
+            artifact: lupinho_libretro.dylib
           - name: windows
             os: ubuntu-latest
             target: libretro-win
-            artifact: lupi_libretro.dll
+            artifact: lupinho_libretro.dll
 
     steps:
       - uses: actions/checkout@v7
@@ -58,10 +58,10 @@ jobs:
       - name: Upload core
         uses: actions/upload-artifact@v7
         with:
-          name: lupi-libretro-${{ matrix.name }}
+          name: lupinho-libretro-${{ matrix.name }}
           path: |
             dist/${{ matrix.artifact }}
-            dist/lupi_libretro.info
+            dist/lupinho_libretro.info
           if-no-files-found: error
 
   release:
@@ -74,7 +74,7 @@ jobs:
       - name: Download cores
         uses: actions/download-artifact@v7
         with:
-          pattern: lupi-libretro-*
+          pattern: lupinho-libretro-*
           path: artifacts
 
       - name: Collect release files
@@ -92,10 +92,10 @@ jobs:
           echo "name=$tag" >> "$GITHUB_OUTPUT"
 
           mkdir -p release
-          cp artifacts/lupi-libretro-linux/lupi_libretro.so release/
-          cp artifacts/lupi-libretro-macos/lupi_libretro.dylib release/
-          cp artifacts/lupi-libretro-windows/lupi_libretro.dll release/
-          cp artifacts/lupi-libretro-linux/lupi_libretro.info release/
+          cp artifacts/lupinho-libretro-linux/lupinho_libretro.so release/
+          cp artifacts/lupinho-libretro-macos/lupinho_libretro.dylib release/
+          cp artifacts/lupinho-libretro-windows/lupinho_libretro.dll release/
+          cp artifacts/lupinho-libretro-linux/lupinho_libretro.info release/
           ls -l release
 
       - name: Publish GitHub Release
@@ -106,7 +106,7 @@ jobs:
           generate_release_notes: true
           fail_on_unmatched_files: true
           files: |
-            release/lupi_libretro.so
-            release/lupi_libretro.dylib
-            release/lupi_libretro.dll
-            release/lupi_libretro.info
+            release/lupinho_libretro.so
+            release/lupinho_libretro.dylib
+            release/lupinho_libretro.dll
+            release/lupinho_libretro.info

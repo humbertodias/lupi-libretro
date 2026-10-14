@@ -173,7 +173,7 @@ static bool setup_game(const char *dir) {
     bool failed = text && strstr(text, "Error loading game:") != NULL;
     if (text && len > 0) {
         if (failed) {
-            if (log_cb) log_cb(RETRO_LOG_ERROR, "[Lupi] %s", text);
+            if (log_cb) log_cb(RETRO_LOG_ERROR, "[Lupinho] %s", text);
             else fwrite(text, 1, len, stderr);
         } else {
             fwrite(text, 1, len, stdout);
@@ -189,7 +189,7 @@ static bool load_game_at(const char *dir) {
     snprintf(game_dir, sizeof(game_dir), "%s", dir);
     lua_api_init();
     if (!globalLuaState) {
-        log_msg(RETRO_LOG_ERROR, "[Lupi] Failed to create Lua state\n");
+        log_msg(RETRO_LOG_ERROR, "[Lupinho] Failed to create Lua state\n");
         return false;
     }
 
@@ -200,7 +200,7 @@ static bool load_game_at(const char *dir) {
 
     snprintf(game_path, sizeof(game_path), "%s/game.lua", game_dir);
     if (luaL_loadfile(globalLuaState, game_path) != LUA_OK) {
-        log_msg(RETRO_LOG_ERROR, "[Lupi] Failed to load game.lua: %s\n",
+        log_msg(RETRO_LOG_ERROR, "[Lupinho] Failed to load game.lua: %s\n",
                 lua_tostring(globalLuaState, -1));
         lua_pop(globalLuaState, 1);
         lua_api_close();
@@ -229,7 +229,7 @@ static bool start_game(const char *path) {
     if (strcmp(path_basename(path), "game.lua") == 0) {
         char dir[512];
         if (parent_directory(path, dir, sizeof(dir)) != 0) {
-            log_msg(RETRO_LOG_ERROR, "[Lupi] Failed to resolve game directory for %s\n", path);
+            log_msg(RETRO_LOG_ERROR, "[Lupinho] Failed to resolve game directory for %s\n", path);
             return false;
         }
         return load_game_at(dir);
@@ -237,7 +237,7 @@ static bool start_game(const char *path) {
 
     if (path_ends_with(path, ".lupi")) {
         if (extract_lupi_to_tmp(path, temp_game_dir, sizeof(temp_game_dir)) != 0) {
-            log_msg(RETRO_LOG_ERROR, "[Lupi] Failed to extract %s\n", path);
+            log_msg(RETRO_LOG_ERROR, "[Lupinho] Failed to extract %s\n", path);
             return false;
         }
         extracted_to_tmp = 1;
@@ -250,7 +250,7 @@ static bool start_game(const char *path) {
         return true;
     }
 
-    log_msg(RETRO_LOG_ERROR, "[Lupi] Unsupported content: %s\n", path);
+    log_msg(RETRO_LOG_ERROR, "[Lupinho] Unsupported content: %s\n", path);
     return false;
 }
 
@@ -298,7 +298,7 @@ unsigned retro_api_version(void) {
 
 void retro_get_system_info(struct retro_system_info *info) {
     memset(info, 0, sizeof(*info));
-    info->library_name = "Lupi";
+    info->library_name = "Lupinho";
     info->library_version = "0.1.0";
     info->valid_extensions = "lupi|lua";
     info->need_fullpath = true;
@@ -373,7 +373,7 @@ void retro_cheat_set(unsigned index, bool enabled, const char *code) {
 bool retro_load_game(const struct retro_game_info *game) {
     enum retro_pixel_format fmt = RETRO_PIXEL_FORMAT_RGB565;
     if (!environ_cb(RETRO_ENVIRONMENT_SET_PIXEL_FORMAT, &fmt)) {
-        log_msg(RETRO_LOG_ERROR, "[Lupi] RGB565 is required\n");
+        log_msg(RETRO_LOG_ERROR, "[Lupinho] RGB565 is required\n");
         return false;
     }
 
@@ -395,7 +395,7 @@ bool retro_load_game(const struct retro_game_info *game) {
     environ_cb(RETRO_ENVIRONMENT_SET_INPUT_DESCRIPTORS, (void *)desc);
 
     if (!game || !game->path) {
-        log_msg(RETRO_LOG_ERROR, "[Lupi] A .lupi file or game directory is required\n");
+        log_msg(RETRO_LOG_ERROR, "[Lupinho] A .lupi file or game directory is required\n");
         return false;
     }
 
